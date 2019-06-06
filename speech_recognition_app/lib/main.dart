@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:speech_recognition/speech_recognition.dart';
 
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -59,13 +60,13 @@ class _VoiceHomeState extends State<VoiceHome>{
     );
     //callback function to see the text what is spoken in  microphone
     _speechRecognition.setRecognitionResultHandler(
-            (String speech)=> setState(()=> resultText = speech),
+          (String speech)=> setState(()=> resultText = speech),
     );
       //Callback function to see recognition stops listening to the microphone
      _speechRecognition.setRecognitionCompleteHandler(
-        ()=> setState(()=> _isListening = false ),
+        () => setState(() => _isListening = false ),
     );
-
+      //Call to the speech recognition object
     _speechRecognition.activate().then(
             (result)=>setState(()=> _isAvailable = result)
     );
@@ -89,12 +90,10 @@ class _VoiceHomeState extends State<VoiceHome>{
                     child: Icon(Icons.cancel),
                     onPressed: (){
                       if(_isListening)
-                        _speechRecognition.
-                        cancel().
-                        then(
+                        _speechRecognition.cancel().then(
                                 (result)=>setState((){
                                   _isListening = result;
-                                  resultText = "";
+                                  resultText = " ";
                                 }),
                         );
                     },
@@ -103,7 +102,7 @@ class _VoiceHomeState extends State<VoiceHome>{
                     child: Icon(Icons.mic),
                     backgroundColor: Colors.pink,
                     onPressed: (){
-                      if(_isAvailable && ! _isListening)
+                      if(_isAvailable && !_isListening)
                         _speechRecognition.
                           listen(locale:"en_US").
                           then((result)=>print('$result'));
@@ -116,13 +115,15 @@ class _VoiceHomeState extends State<VoiceHome>{
                     backgroundColor: Colors.deepPurple,
                     onPressed: (){
                       if(_isListening)
-                        _speechRecognition.stop().then((result)=> setState(()=> _isListening = result));
+                        _speechRecognition.stop().then(
+                            (result)=> setState(()=> _isListening = result)
+                        );
                     },
                   ),//FloatingActionButton
                 ],
               ),//Row
             Container(
-              width: MediaQuery.of(context).size.width *0.8,
+              width: MediaQuery.of(context).size.width * 0.8,
               decoration: BoxDecoration(
                 color: Colors.lightBlue[100],
                 borderRadius: BorderRadius.circular(6.0),
@@ -135,7 +136,7 @@ class _VoiceHomeState extends State<VoiceHome>{
                   resultText,
                   style:TextStyle(fontSize: 24.0),
               ),
-        )
+            )
           ],//widget
         ),
       ),//Container
